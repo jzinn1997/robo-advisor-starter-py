@@ -9,7 +9,7 @@ load_dotenv() # loads environment variables set in a ".env" file, including the 
 api_key = os.environ.get("ALPHAVANTAGE_API_KEY")
 #print("API KEY: " + api_key)
 
-symbol = "NFLX" # TODO: capture user input, like... input("Please specify a stock symbol: ")
+symbol = "MSFT" # TODO: capture user input, like... input("Please specify a stock symbol: ")
 
 # see: https://www.alphavantage.co/documentation/#daily (or a different endpoint, as desired)
 # TODO: assemble the request url to get daily data for the given stock symbol...
@@ -34,7 +34,11 @@ last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
 # TODO: further parse the JSON response...
 
 # TODO: traverse the nested response data structure to find the latest closing price and other values of interest...
-latest_price_usd = "$100,000.00"
+latest_close = parsed_response["Time Series (Daily)"]["2019-03-01"]["4. close"]
+
+def to_usd(my_price):
+    return "${0:,.2f}".format(my_price)
+
 
 #
 # INFO OUTPUTS
@@ -43,18 +47,15 @@ latest_price_usd = "$100,000.00"
 # TODO: write response data to a CSV file
 
 # TODO: further revise the example outputs below to reflect real information
-print("-----------------")
-
-
 
 print("-----------------")
 print(f"SELECTED STOCK SYMBOL: {symbol}")
 print("-----------------")
 print("REQUESTING STOCK MARKET DATA...")
-print("REQUEST AT: 11:52pm on June 5th, 2018")
+print("REQUEST AT: 11:52pm on June 5th, 2018") #use datetime module like in previous exercises
 print("-----------------")
 print(f"LATEST DAY OF AVAILABLE DATA: {last_refreshed}")
-print(f"LATEST DAILY CLOSING PRICE: {latest_price_usd}")
+print(f"LATEST DAILY CLOSING PRICE: {to_usd(float(latest_close))}")
 print("RECENT HIGH: $101,000.00")
 print("RECENT LOW: $99,000.00")
 print("-----------------")
