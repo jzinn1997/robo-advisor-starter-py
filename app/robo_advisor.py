@@ -24,7 +24,9 @@ response = requests.get(request_url)
 
 parsed_response = json.loads(response.text)
 
-breakpoint()
+last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
+
+#breakpoint()
 
 
 # TODO: use the "requests" package to issue a "GET" request to the specified url, and store the JSON response in a variable...
@@ -42,10 +44,16 @@ latest_price_usd = "$100,000.00"
 
 # TODO: further revise the example outputs below to reflect real information
 print("-----------------")
-print(f"STOCK SYMBOL: {symbol}")
-print("RUN AT: 11:52pm on June 5th, 2018")
+
+
+
 print("-----------------")
-print("LATEST DAY OF AVAILABLE DATA: June 4th, 2018")
+print(f"SELECTED STOCK SYMBOL: {symbol}")
+print("-----------------")
+print("REQUESTING STOCK MARKET DATA...")
+print("REQUEST AT: 11:52pm on June 5th, 2018")
+print("-----------------")
+print(f"LATEST DAY OF AVAILABLE DATA: {last_refreshed}")
 print(f"LATEST DAILY CLOSING PRICE: {latest_price_usd}")
 print("RECENT HIGH: $101,000.00")
 print("RECENT LOW: $99,000.00")
