@@ -14,6 +14,19 @@ symbol = "NFLX" # TODO: capture user input, like... input("Please specify a stoc
 # see: https://www.alphavantage.co/documentation/#daily (or a different endpoint, as desired)
 # TODO: assemble the request url to get daily data for the given stock symbol...
 
+request_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&outputsize=full&apikey=demo"
+
+response = requests.get(request_url)
+#print(type(response))
+#print(response.status.code)
+#print(response.text)
+#
+
+parsed_response = json.loads(response.text)
+
+breakpoint()
+
+
 # TODO: use the "requests" package to issue a "GET" request to the specified url, and store the JSON response in a variable...
 
 # TODO: further parse the JSON response...
