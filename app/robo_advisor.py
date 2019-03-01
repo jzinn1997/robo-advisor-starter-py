@@ -34,7 +34,13 @@ last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
 # TODO: further parse the JSON response...
 
 # TODO: traverse the nested response data structure to find the latest closing price and other values of interest...
-latest_close = parsed_response["Time Series (Daily)"]["2019-03-01"]["4. close"]
+
+tsd = parsed_response["Time Series (Daily)"]
+
+dates = list(tsd.keys())
+
+latest_day= dates[0] #assuming that the first day is at the front of the list, consider sorting to ensure this
+latest_close = tsd[latest_day]["4. close"]
 
 def to_usd(my_price):
     return "${0:,.2f}".format(my_price)
