@@ -7,12 +7,10 @@ import datetime
 import numpy as np
 from IPython import embed
 
-
 load_dotenv() # loads environment variables set in a ".env" file, including the value of the ALPHAVANTAGE_API_KEY variable
 
 # see: https://www.alphavantage.co/support/#api-key
 api_key = os.environ.get("ALPHAVANTAGE_API_KEY") or "OOPS! Please set an environment variable named 'ALPHAVANTAGE_API_KEY'."
-
 
 # adapted from https://github.com/hiepnguyen034/robo-stock/blob/master/robo_advisor.py
 while True:
@@ -33,29 +31,16 @@ request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&sym
 response = requests.get(request_url)
 
 parsed_response = json.loads(response.text)
-
 last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
 
-#breakpoint()
-
-
-# TODO: use the "requests" package to issue a "GET" request to the specified url, and store the JSON response in a variable...
-
-# TODO: further parse the JSON response...
-
-# TODO: traverse the nested response data structure to find the latest closing price and other values of interest...
-
 tsd = parsed_response["Time Series (Daily)"]
-
 dates = list(tsd.keys())
-latest_day= dates[0] #assuming that the first day is at the front of the list, consider sorting to ensure this
+latest_day= dates[0] 
 latest_close = tsd[latest_day]["4. close"]
 
 def to_usd(my_price):
     return "${0:,.2f}".format(my_price)
 
-
-#maximum of all the high and low prices
 high_prices = []
 low_prices = []
 
@@ -66,18 +51,15 @@ for date in dates:
     low_prices.append(float(low_price))
 
 recent_high = max(high_prices)
-average_of_highs = np.mean(high_prices)
 recent_low = min(low_prices)
-average_of_lows = np.mean(low_prices)
 
+average_of_highs = np.mean(high_prices)
+average_of_lows = np.mean(low_prices)
 
 #
 # INFO OUTPUTS
 #
 
-# TODO: write response data to a CSV file
-
-#csv_file_path = "data/prices.csv" # a relative filepath
 #csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "monthly_sales.csv")
 
 csv_file_path = os.path.join(os.path.dirname(__file__), "../data/prices.csv")
@@ -98,9 +80,7 @@ with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writin
             "volume": daily_prices["5. volume"]
         })
 
-# TODO: further revise the example outputs below to reflect real information
-
-#from shopping cart project
+#adapted from my shopping cart project
 now = datetime.datetime.strptime(datetime.datetime.today().strftime("%Y-%m-%d %H:%M:%S"),"%Y-%m-%d %H:%M:%S")
 
 print("-----------------")
