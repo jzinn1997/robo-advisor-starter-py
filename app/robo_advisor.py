@@ -64,7 +64,9 @@ for date in dates:
     low_prices.append(float(low_price))
 
 recent_high = max(high_prices)
+average_of_highs = np.mean(high_prices)
 recent_low = min(low_prices)
+average_of_lows = np.mean(low_prices)
 
 
 #
@@ -110,8 +112,13 @@ print(f"LATEST DAILY CLOSING PRICE: {to_usd(float(latest_close))}")
 print(f"RECENT HIGH: {to_usd(float(recent_high))}")
 print(f"RECENT LOW: {to_usd(float(recent_low))}")
 print("-----------------")
-print("RECOMMENDATION: Buy!")
-print("RECOMMENDATION REASON: Because the latest closing price is within threshold XYZ etc., etc. and this fits within your risk tolerance etc., etc.")
+# adapted from https://github.com/hiepnguyen034/robo-stock/blob/master/robo_advisor.py and https://stackoverflow.com/questions/9039961/finding-the-average-of-a-list
+if float(latest_close)< float(average_of_highs):
+	print ("RECOMMENDATION: BUY! Because...buy low, sell high). The stock's current closing price is less than the avg closing price!")
+elif float(latest_close)> float(average_of_highs):
+    print("RECOMMENDATION: SELL! (Because...buy low, sell high. The stock's current closing price is greater than the avg closing price!")
+else: 
+	print ("RECOMMENDATION: DO NOT BUY! The stock's current closing price is the avg of previous closing prices.")
 print("-----------------")
 print(f"WRITING DATA TO CSV: {csv_file_path}...")
 print("-------------------------")
