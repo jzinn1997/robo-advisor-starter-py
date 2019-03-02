@@ -11,10 +11,22 @@ load_dotenv() # loads environment variables set in a ".env" file, including the 
 api_key = os.environ.get("ALPHAVANTAGE_API_KEY") or "OOPS! Please set an environment variable named 'ALPHAVANTAGE_API_KEY'."
 
 
-symbol = "MSFT" # TODO: capture user input, like... input("Please specify a stock symbol: ")
+# adapted from https://github.com/hiepnguyen034/robo-stock/blob/master/robo_advisor.py
+while True:
+	user_input = input("PLEASE CHOOSE A STOCK NAME TO ANALYZE: ") 
+	if not user_input.isalpha():
+		print("Please be sure to enter the name of a stock.")
+	else:
+		data=requests.get('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='+user_input+'&apikey='+api_key)
 
-request_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&outputsize=full&apikey=demo"
+		if 'Error' in data.text:
+			print("Oops! Stock name not found. Please double check your stock name and try again.")
+		else:
+			break
 
+
+symbol = user_input #> "MSFT"
+request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
 response = requests.get(request_url)
 
 parsed_response = json.loads(response.text)
@@ -84,7 +96,7 @@ with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writin
 # TODO: further revise the example outputs below to reflect real information
 
 print("-----------------")
-print(f"SELECTED STOCK SYMBOL: {symbol}")
+print("SELECTED STOCK SYMBOL: " + user_input)
 print("-----------------")
 print("REQUESTING STOCK MARKET DATA...")
 print("REQUEST AT: 11:52pm on June 5th, 2018") #use datetime module like in previous exercises
