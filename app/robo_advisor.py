@@ -4,6 +4,7 @@ import os
 import requests
 import csv
 import datetime 
+import numpy as np
 
 
 load_dotenv() # loads environment variables set in a ".env" file, including the value of the ALPHAVANTAGE_API_KEY variable
@@ -114,9 +115,9 @@ print(f"RECENT LOW: {to_usd(float(recent_low))}")
 print("-----------------")
 # adapted from https://github.com/hiepnguyen034/robo-stock/blob/master/robo_advisor.py and https://stackoverflow.com/questions/9039961/finding-the-average-of-a-list
 if float(latest_close)< float(average_of_highs):
-	print ("RECOMMENDATION: BUY! Because...buy low, sell high). The stock's current closing price is less than the avg closing price!")
+	print ("RECOMMENDATION: BUY!...buy low, sell high. The stock's current closing price is less than the avg closing price!")
 elif float(latest_close)> float(average_of_highs):
-    print("RECOMMENDATION: SELL! (Because...buy low, sell high. The stock's current closing price is greater than the avg closing price!")
+    print("RECOMMENDATION: SELL!...buy low, sell high. The stock's current closing price is greater than the avg closing price!")
 else: 
 	print ("RECOMMENDATION: DO NOT BUY! The stock's current closing price is the avg of previous closing prices.")
 print("-----------------")
