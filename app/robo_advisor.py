@@ -17,10 +17,6 @@ symbol = "MSFT" # TODO: capture user input, like... input("Please specify a stoc
 request_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&outputsize=full&apikey=demo"
 
 response = requests.get(request_url)
-#print(type(response))
-#print(response.status.code)
-#print(response.text)
-#
 
 parsed_response = json.loads(response.text)
 
@@ -38,12 +34,21 @@ last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
 tsd = parsed_response["Time Series (Daily)"]
 
 dates = list(tsd.keys())
-
 latest_day= dates[0] #assuming that the first day is at the front of the list, consider sorting to ensure this
 latest_close = tsd[latest_day]["4. close"]
 
 def to_usd(my_price):
     return "${0:,.2f}".format(my_price)
+
+
+#maximum of all the high prices
+high_prices = []
+
+for date in dates:
+    high_price=tsd[date]["2. high"]
+    high_prices.append(float(high_price))
+
+recent_high = max(high_prices)
 
 
 #
@@ -62,7 +67,7 @@ print("REQUEST AT: 11:52pm on June 5th, 2018") #use datetime module like in prev
 print("-----------------")
 print(f"LATEST DAY OF AVAILABLE DATA: {last_refreshed}")
 print(f"LATEST DAILY CLOSING PRICE: {to_usd(float(latest_close))}")
-print("RECENT HIGH: $101,000.00")
+print(f"RECENT HIGH: {to_usd(float(recent_high))}")
 print("RECENT LOW: $99,000.00")
 print("-----------------")
 print("RECOMMENDATION: Buy!")
