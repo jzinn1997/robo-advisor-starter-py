@@ -3,6 +3,7 @@ import json
 import os
 import requests
 import csv
+import datetime 
 
 
 load_dotenv() # loads environment variables set in a ".env" file, including the value of the ALPHAVANTAGE_API_KEY variable
@@ -20,12 +21,12 @@ while True:
 		data=requests.get('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='+user_input+'&apikey='+api_key)
 
 		if 'Error' in data.text:
-			print("Oops! Stock name not found. Please double check your stock name and try again.")
+			print("Oops! This stock name was not found. Please check your stock name and try again.")
 		else:
 			break
 
-
 symbol = user_input #> "MSFT"
+
 request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
 response = requests.get(request_url)
 
@@ -95,11 +96,14 @@ with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writin
 
 # TODO: further revise the example outputs below to reflect real information
 
+#from shopping cart project
+now = datetime.datetime.strptime(datetime.datetime.today().strftime("%Y-%m-%d %H:%M:%S"),"%Y-%m-%d %H:%M:%S")
+
 print("-----------------")
 print("SELECTED STOCK SYMBOL: " + user_input)
 print("-----------------")
 print("REQUESTING STOCK MARKET DATA...")
-print("REQUEST AT: 11:52pm on June 5th, 2018") #use datetime module like in previous exercises
+print("REQUEST AT: " + (str(now)))  #use datetime module like in previous exercises
 print("-----------------")
 print(f"LATEST DAY OF AVAILABLE DATA: {last_refreshed}")
 print(f"LATEST DAILY CLOSING PRICE: {to_usd(float(latest_close))}")
