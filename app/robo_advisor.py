@@ -71,7 +71,7 @@ csv_headers = ["timestamp", "open", "high", "low", "close", "volume"]
 
 with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writing"
     writer = csv.DictWriter(csv_file, fieldnames=csv_headers)
-    writer.writeheader() # uses fieldnames set above
+    writer.writeheader() 
     for date in dates:
         daily_prices = tsd[date]
         writer.writerow({
@@ -99,3 +99,5 @@ print("-----------------")
 print("RECOMMENDATION: Buy!")
 print("RECOMMENDATION REASON: Because the latest closing price is within threshold XYZ etc., etc. and this fits within your risk tolerance etc., etc.")
 print("-----------------")
+print(f"WRITING DATA TO CSV: {csv_file_path}...")
+print("-------------------------")
