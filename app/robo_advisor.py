@@ -5,6 +5,7 @@ import requests
 import csv
 import datetime 
 import numpy as np
+from IPython import embed
 
 
 load_dotenv() # loads environment variables set in a ".env" file, including the value of the ALPHAVANTAGE_API_KEY variable
